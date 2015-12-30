@@ -11,7 +11,7 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": "https://github.com/AlexanderChen1989/ember-cli-pure-bootstrap",
   "engines": {
     "node": ">= 0.10.0"
   },
