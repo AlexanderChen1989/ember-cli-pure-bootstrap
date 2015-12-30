@@ -2,12 +2,24 @@
 'use strict';
 
 var fs = require('fs'),
-  path = require('path');
+  path = require('path'),
+  extend = require('util')._extend;
+
+var defaultOptions = {
+    importBootstrapTheme: false,
+    importBootstrapCSS: true,
+    importBootstrapFont: true
+};
 
 module.exports = {
   name: 'ember-cli-pure-bootstrap',
   included: function(app) {
     this._super.included(app);
+
+    var emberCLIVersion = app.project.emberCLIVersion();
+    if (emberCLIVersion < '0.0.41') {
+        throw new Error('ember-cli-bootstrap requires ember-cli version 0.0.41 or greater.\n');
+    }
 
     var base = path.join(app.bowerDirectory, '/bootstrap'),
       dirs = fs.readdirSync(base),
@@ -20,7 +32,28 @@ module.exports = {
       );
     }
 
-    app.import(path.join(base, dist, '/css/bootstrap.min.css'));
-    app.import(path.join(base, dist, '/js/bootstrap.min.js'));
+    var options         = extend(defaultOptions, app.options['ember-cli-pure-bootstrap']);
+    var bootstrapPath   = path.join(app.bowerDirectory, base, dist);
+
+    // Import css from bootstrap
+    if (options.importBootstrapCSS) {
+        app.import(path.join(bootstrapPath, 'css/bootstrap.css'));
+        app.import(path.join(bootstrapPath, 'css/bootstrap.css.map'), { destDir: 'assets' });
+    }
+
+    if (options.importBootstrapTheme) {
+        app.import(path.join(bootstrapPath, 'css/bootstrap-theme.css'));
+    }
+
+    // Import glyphicons
+    if (options.importBootstrapFont) {
+        app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.eot'), { destDir: '/fonts' });
+        app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.svg'), { destDir: '/fonts' });
+        app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.ttf'), { destDir: '/fonts' });
+        app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.woff'), { destDir: '/fonts' });
+        app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.woff2'), { destDir: '/fonts' });
+    }
+
+    app.import(path.join(app.bowerDirectory, 'bootstrap/js/transition.js'));
   }
 };
