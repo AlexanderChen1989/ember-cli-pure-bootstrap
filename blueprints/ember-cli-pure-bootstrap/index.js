@@ -1,6 +1,6 @@
 /*jshint node:true*/
 module.exports = {
-  description: ''
+  description: 'ember-cli-pure-bootstrap',
 
   // locals: function(options) {
   //   // Return custom template variables here.
@@ -10,6 +10,6 @@ module.exports = {
   // }
 
   afterInstall: function(options) {
-    return this.addBowerPackageToProject('bootstrap'); 
+    return this.addBowerPackageToProject('bootstrap');
   }
 };
