@@ -7,6 +7,7 @@ var fs = require('fs'),
 
 var defaultOptions = {
     importBootstrapTheme: false,
+    importBootstrapJS: true,
     importBootstrapCSS: true,
     importBootstrapFont: true
 };
@@ -35,25 +36,29 @@ module.exports = {
     var options         = extend(defaultOptions, app.options['ember-cli-pure-bootstrap']);
     var bootstrapPath   = path.join(app.bowerDirectory, base, dist);
 
+    // Import js from bootstrap
+    if (options.importBootstrapJS) {
+      app.import(path.join(bootstrapPath, 'js/bootstrap.js'));
+    }
+
     // Import css from bootstrap
     if (options.importBootstrapCSS) {
         app.import(path.join(bootstrapPath, 'css/bootstrap.css'));
-        app.import(path.join(bootstrapPath, 'css/bootstrap.css.map'), { destDir: 'assets' });
+        app.import(path.join(bootstrapPath, 'css/bootstrap.css.map'), {destDir: 'assets'});
     }
 
     if (options.importBootstrapTheme) {
-        app.import(path.join(bootstrapPath, 'css/bootstrap-theme.css'));
+      app.import(path.join(bootstrapPath, 'css/bootstrap-theme.css'));
+      app.import(path.join(bootstrapPath, 'css/bootstrap-theme.css.map', {destDir: 'assets'}));
     }
 
     // Import glyphicons
     if (options.importBootstrapFont) {
-        app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.eot'), { destDir: '/fonts' });
-        app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.svg'), { destDir: '/fonts' });
-        app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.ttf'), { destDir: '/fonts' });
-        app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.woff'), { destDir: '/fonts' });
-        app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.woff2'), { destDir: '/fonts' });
+      app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.eot'), { destDir: '/fonts' });
+      app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.svg'), { destDir: '/fonts' });
+      app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.ttf'), { destDir: '/fonts' });
+      app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.woff'), { destDir: '/fonts' });
+      app.import(path.join(bootstrapPath, 'fonts/glyphicons-halflings-regular.woff2'), { destDir: '/fonts' });
     }
-
-    app.import(path.join(app.bowerDirectory, 'bootstrap/js/transition.js'));
   }
 };
