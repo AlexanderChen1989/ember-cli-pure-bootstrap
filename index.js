@@ -34,7 +34,7 @@ module.exports = {
     }
 
     var options         = extend(defaultOptions, app.options['ember-cli-pure-bootstrap']);
-    var bootstrapPath   = path.join(app.bowerDirectory, base, dist);
+    var bootstrapPath   = path.join(base, dist);
 
     // Import js from bootstrap
     if (options.importBootstrapJS) {
